@@ -9,7 +9,7 @@ import torch.nn.functional as F
 from PIL import Image
 from torch import nn
 
-from JNet import JNet
+from DmSiNet import DmSiNet
 
 
 
@@ -30,7 +30,7 @@ class DeeplabV3(object):
         # -------------------------------------------------------------------#
 
 
-        "model_path": r'F:\lwl\JNET\best_epoch_weights.pth',
+        "model_path": r'F:\lwl\best_epoch_weights.pth',
 
         # ----------------------------------------#
         #   所需要区分的类的个数+1
@@ -105,7 +105,7 @@ class DeeplabV3(object):
         # -------------------------------#
         #-------------简单版权重加载------------------  #
         # self.net = DeepLabV3(3,3)
-        self.net = JNet()
+        self.net = DmSiNet()
         # self.net = SegFormer()
 
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 
-from JNet import JNet
+from DmSiNet import DmSiNet
 import torch.nn.functional as F
 ###############
 
@@ -24,12 +24,9 @@ from pytorch_grad_cam.utils.image import show_cam_on_image, preprocess_image
 from pytorch_grad_cam import GradCAM
 from utils.utils import cvtColor, preprocess_input
 
-#checkpoint_path = r'D:\onedrive\郑均\桌面\论文写作\4第四章语义分割模型设计\带有别人内容的代码\xingnengpingjia\models\Unet_best.pth'
-#checkpoint_path = r'D:\onedrive\郑均\桌面\论文写作\4第四章语义分割模型设计\带有别人内容的代码\xingnengpingjia\models\PSPNet\PSP_best_epoch_weights.pth'
 
 
-
-image_path = r"F:\lwl\JNET\img\c30_1_3.png"
+image_path = r"F:\lwl\img\c30_1_3.png"
 # image_path = r"C:\0image_train\JPEGImages\a21_31_3_4.png"
 class SemanticSegmentationTarget:
     def __init__(self, category, mask):
@@ -79,7 +76,6 @@ def f2(output, image_path):
 def get_white_and_pic():
     model = UNet(3)
     # model = PSPNet(3,8,aux_branch=False)
-   # model = JNet()
     model.cuda()
     load_net(model)
     model = model.eval()
@@ -132,32 +128,31 @@ if __name__ == '__main__':
     # pic_path = r"C:\0image_train\JPEGImages\a21_31_12_1.png"
     # pic_path = r"C:\0image_train\JPEGImages\n1_6_12.png"
     # pic_path = r"C:\0image_train\JPEGImages\n17_12_3.png"
-    # pic_path = r"D:\onedrive\郑均\桌面\论文写作\4第四章语义分割模型设计\实验数据\标准图片\标准标注.png"
-    pic_path = r"F:\lwl\JNET\img\c30_1_3.png"
+    pic_path = r"F:\lwl\img\c30_1_3.png"
     # ------------JunNet----------#
-    checkpoint_path = r'F:\lwl\JNET\best_epoch_weights.pth'
-    model = JNet(3)
+    checkpoint_path = r'F:\lwl\best_epoch_weights.pth'
+    model = DmSiNet(3)
     #
     # ----------------------#
 
 
     #------------UNet----------#
-    # checkpoint_path = r'D:\onedrive\郑均\桌面\论文写作\4第四章语义分割模型设计\带有别人内容的代码\xingnengpingjia\models\Unet\Unet_best.pth'
-    # checkpoint_path = r'D:\onedrive\郑均\桌面\论文写作\4第四章语义分割模型设计\带有别人内容的代码\xingnengpingjia\models\Unet\ep075-loss0.195-val_loss0.194.pth'
+    # checkpoint_path = r'D:\models\Unet\Unet_best.pth'
+    # checkpoint_path = r'D:\models\Unet\ep075-loss0.195-val_loss0.194.pth'
     # model = UNet(3)
 
     # ----------------------#
 
     #------------UNet----------#
-    # checkpoint_path = r'D:\onedrive\郑均\桌面\论文写作\4第四章语义分割模型设计\带有别人内容的代码\xingnengpingjia\models\DeepLab\deeplab_best.pth'
+    # checkpoint_path = r'D:\models\DeepLab\deeplab_best.pth'
     # model = DeepLabV3(3,3)
-    #pic_path = r"D:\onedrive\郑均\桌面\论文写作\4第四章语义分割模型设计\实验数据\标准图片\标准标注.png"
+    #pic_path = r"D:\onedrive\标准标注.png"
     # ----------------------#
 
      #------------UNet----------#
-    # checkpoint_path = r'D:\onedrive\郑均\桌面\论文写作\4第四章语义分割模型设计\带有别人内容的代码\xingnengpingjia\models\PSPNet\PSP_best_epoch_weights.pth'
+    # checkpoint_path = r'D:\onedrive\models\PSPNet\PSP_best_epoch_weights.pth'
     # model = PSPNet(3,8,aux_branch=False)
-    # pic_path = r"D:\onedrive\郑均\桌面\论文写作\4第四章语义分割模型设计\实验数据\标准图片\标准标注.png"
+    # pic_path = r"D:\标准标注.png"
     # ----------------------#
 
     gram_cam(model,checkpoint_path,pic_path)
