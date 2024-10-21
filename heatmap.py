@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 from JNet import JNet
 import torch.nn.functional as F
 ###############
-# 模型代码没有问题，模型参数没有问题，那是啥子问题？
+
 
 #https://github.com/jacobgil/pytorch-grad-cam 分割可解释性的github连接，本代码所使用的库文件
 ############

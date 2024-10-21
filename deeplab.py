@@ -29,10 +29,9 @@ class DeeplabV3(object):
         #   验证集损失较低不代表miou较高，仅代表该权值在验证集上泛化性能较好。
         # -------------------------------------------------------------------#
 
-        #"model_path": r'D:\onedrive\郑均\桌面\论文写作\4第四章语义分割模型设计\带有别人内容的代码\xingnengpingjia\models\segformer\ep035-loss0.062-val_loss0.064.pth',
-        #"model_path": r'D:\onedrive\郑均\桌面\论文写作\4第四章语义分割模型设计\带有别人内容的代码\xingnengpingjia\models\JunNet\best_epoch_weights.pth',
+
         "model_path": r'F:\lwl\JNET\best_epoch_weights.pth',
-        #"model_path": r'D:\onedrive\郑均\桌面\论文写作\4第四章语义分割模型设计\带有别人内容的代码\xingnengpingjia\models\JunNet\ep200-loss0.154-val_loss0.163.pth',
+
         # ----------------------------------------#
         #   所需要区分的类的个数+1
         # ----------------------------------------#
@@ -119,7 +118,7 @@ class DeeplabV3(object):
         # model = BiSeNetV2(n_classes=3)
         #
         # model_dict = model.state_dict()
-        # model_path = r"D:\onedrive\郑均\桌面\论文写作\4第四章语义分割模型设计\带有别人内容的代码\mult\models\biseNet_best.pth"
+        # model_path = r
         # pretrained_dict = torch.load(model_path, map_location="cuda")
         # load_key, no_load_key, temp_dict = [], [], {}
         # for k, v in pretrained_dict.items():

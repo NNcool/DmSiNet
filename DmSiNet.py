@@ -9,9 +9,9 @@ import FeatureFusionModule
 from DenseBlock import Denseasppblock
 
 
-class JNet(nn.Module):
+class DmSiNet(nn.Module):
     def __init__(self, classes=3, pretrained=False):
-        super(JNet, self).__init__()
+        super(DmSiNet, self).__init__()
         # assert layers in [50,101,152]
         assert classes > 1
         # resnet = resnet18(pretrained=pretrained)
@@ -69,7 +69,7 @@ class JNet(nn.Module):
 if __name__ == '__main__':
     # from etc.flops_counter import add_flops_counting_methods, flops_to_string, get_model_parameters_number
 
-    model = JNet(classes=3).cuda()
+    model = DmSiNet(classes=3).cuda()
 
     torchsummary.summary(model, input_size=(3,512, 512), device="cuda")
     # 将模型移动到GPU上
