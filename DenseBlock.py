@@ -7,9 +7,9 @@ from torch import nn, einsum
 import numpy as np
 import torch.nn.functional as F
 
-# 本函数的功能，就是
 
-'''方法1，自定义函数 参考自 https://blog.csdn.net/qq_33757398/article/details/109210240'''
+
+
 def model_structure(model):
     blank = ' '
     print('-' * 90)
@@ -18,7 +18,7 @@ def model_structure(model):
           + ' ' * 3 + 'number' + ' ' * 3 + '|')
     print('-' * 90)
     num_para = 0
-    type_size = 1  # 如果是浮点数就是4
+    type_size = 1
 
     for index, (key, w_variable) in enumerate(model.named_parameters()):
         if len(key) <= 30:
@@ -45,16 +45,16 @@ class CBAM_Module(nn.Module):
     def __init__(self, channel, reduction=16, spatial_kernel=7):
         super(CBAM_Module, self).__init__()
 
-        # channel attention 压缩H,W为1
+        # channel attention  H,W=1
         self.max_pool = nn.AdaptiveMaxPool2d(1)
         self.avg_pool = nn.AdaptiveAvgPool2d(1)
 
         # shared MLP
         self.mlp = nn.Sequential(
-            # Conv2d比Linear方便操作
+            # Conv2d比Linear
             # nn.Linear(channel, channel // reduction, bias=False)
             nn.Conv2d(channel, channel // reduction, 1, bias=False),
-            # inplace=True直接替换，节省内存
+            # inplace=True
             nn.ReLU(inplace=True),
             # nn.Linear(channel // reduction, channel,bias=False)
             nn.Conv2d(channel // reduction, channel, 1, bias=False)
@@ -79,12 +79,12 @@ class CBAM_Module(nn.Module):
 class FenZhiBlock(nn.Module):
     def __init__(self, in_channals,out_channals,dilation_rate):
         super(FenZhiBlock,self).__init__()
-        # 第一个模块，空洞卷积，不改变特征图的大小，并且特征图的特征保持不变
+        # The first module, dilated convolution, does not change the size of the feature map, and the features of the feature map remain unchanged
         self.conv1 = nn.Conv2d(in_channels=in_channals, out_channels=out_channals, kernel_size=3, padding=dilation_rate, dilation=dilation_rate)
         self.bn1 = nn.BatchNorm2d(out_channals)
         self.relu1 = nn.ReLU()
 
-        # 第二个，普通卷积，也不改变大小
+        # The second one is regular convolution, which does not change the size
         self.conv2 = nn.Conv2d(in_channels=out_channals, out_channels=out_channals, kernel_size=3, padding=1)
         self.bn2 = nn.BatchNorm2d(out_channals)
         self.relu2 = nn.ReLU()
@@ -113,7 +113,7 @@ class FenZhiBlock(nn.Module):
 
 
 
-#就是说 他的模型
+
 class Denseasppblock(nn.Module):
     def __init__(self, in_channels,out_channels,inter_channals=32,
                  norm_layer=nn.BatchNorm2d, norm_kwargs=None):
@@ -144,16 +144,15 @@ class Denseasppblock(nn.Module):
 
         aspp24 = self.aspp_24(x)
         x = torch.cat([aspp24, x], dim=1)
-        # 448 降到 256
+        # 448 - 256
         x = self.conv_change(x)
-        # 这里再从256不变，让特征图降低
+
         x = self.pool(x)
 
         return x
 
-#我现在在测试，假设我输入的是256*256，通道数为128的图像，他是否能正常掉到64*64*256的图片上去
 
-# 第一个参数，中间层的大小，是选大还是选小，会有一个性能和效率的平衡点
+
 if __name__ == '__main__':
 
     in_chan = 256
@@ -161,13 +160,8 @@ if __name__ == '__main__':
 
     net = Denseasppblock(in_chan, out_chan).cuda()
 
-    # Example input (assuming the input size is 第一个是通道数，第3,4是特征图大小)
+
 
     torchsummary.summary(net, input_size=(256, 128, 128), device="cuda")
     print(1)
-    # example_input = torch.rand(10, 64, 512, 512)  # Batch size of 1
-    # # Get the output
-    # output = net(example_input)
-    # # output = stat(net,(64,512,512))
-    # print(output.shape)
 

@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-# 这个版本只有512层，然后参数量瞬间低了
+
 import torch.nn.functional as F
 from mmcv.cnn.utils.flops_counter import flops_to_string, add_flops_counting_methods, get_model_parameters_number
 from torchsummary import torchsummary
@@ -24,7 +24,7 @@ class DmSiNet(nn.Module):
             nn.UpsamplingBilinear2d(scale_factor=2),
         )
 
-        # 再给一个特征提取模块
+
 
 
         self.layer1 = Denseasppblock(3,64)
@@ -33,7 +33,7 @@ class DmSiNet(nn.Module):
         self.layer4 = Denseasppblock(256, 512)
         self.layer5 = Denseasppblock(512, 1024)
 
-        # 分别表示融合的层数
+
         self.ffm1 = FeatureFusionModule.FFModule(512, 1024, 512)
         self.ffm2 = FeatureFusionModule.FFModule(256, 512, 256)
         self.ffm3 = FeatureFusionModule.FFModule(128, 256, 128)
@@ -50,13 +50,13 @@ class DmSiNet(nn.Module):
         layer5 = self.layer5(layer4)#1024.16.16
 
         up1 = self.up(layer5) #1024.32.32
-        out_1 = self.ffm1(layer4, up1) # 也就是说 我融合的是1024,32,32 up1和layer4 512,32，32
+        out_1 = self.ffm1(layer4, up1) # 1024,32,32 up1 layer4 512,32，32
         # out_1的大小是512,23,32
         up2 = self.up(out_1) #
-        out_2 = self.ffm2(layer3, up2)  #128.128.128 512.32.32 输出 128.128.128
+        out_2 = self.ffm2(layer3, up2)  #128.128.128 512.32.32 output 128.128.128
 
         up3 = self.up(out_2) # 128.256.256
-        out_3 = self.ffm3(layer2, up3) #输出64.256.256
+        out_3 = self.ffm3(layer2, up3) #output 64.256.256
 
         up4 = self.up(out_3)
         out_4 = self.ffm4(layer1, up4)
@@ -72,7 +72,7 @@ if __name__ == '__main__':
     model = DmSiNet(classes=3).cuda()
 
     torchsummary.summary(model, input_size=(3,512, 512), device="cuda")
-    # 将模型移动到GPU上
+    # GPU
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model.to(device)
     batch = torch.FloatTensor(1,3, 512, 512)

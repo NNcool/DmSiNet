@@ -5,7 +5,7 @@ import torch.nn.functional as F
 ###############
 
 
-#https://github.com/jacobgil/pytorch-grad-cam 分割可解释性的github连接，本代码所使用的库文件
+
 ############
 import torchvision.transforms as transforms
 # warnings.filterwarnings('ignore')
@@ -46,7 +46,7 @@ def load_net(model,checkpoint_path):
     model.load_state_dict(checkpoint)
 
 
-# 包装函数，用来将图片转换成tensor
+
 def f1(image_path):
     img = Image.open(image_path).convert('RGB')
     image = cvtColor(img)
@@ -56,7 +56,7 @@ def f1(image_path):
     return images
 
 
-# f2的功能是将模型输出的结果和图片的内容同时展示
+
 def f2(output, image_path):
     image = np.array(Image.open(image_path))
 
@@ -65,7 +65,7 @@ def f2(output, image_path):
     pr = pr.argmax(axis=-1)
     binary_data = np.where(pr == 1, 255, 0)
 
-    # 展示二值化后的图像
+
     plt.imshow(binary_data, cmap='gray', interpolation='nearest')
     plt.axis('off')
     plt.show()
@@ -146,13 +146,13 @@ if __name__ == '__main__':
     #------------UNet----------#
     # checkpoint_path = r'D:\models\DeepLab\deeplab_best.pth'
     # model = DeepLabV3(3,3)
-    #pic_path = r"D:\onedrive\标准标注.png"
+    #pic_path = r"D:\onedrive"
     # ----------------------#
 
      #------------UNet----------#
     # checkpoint_path = r'D:\onedrive\models\PSPNet\PSP_best_epoch_weights.pth'
     # model = PSPNet(3,8,aux_branch=False)
-    # pic_path = r"D:\标准标注.png"
+    # pic_path = r"D:
     # ----------------------#
 
     gram_cam(model,checkpoint_path,pic_path)
